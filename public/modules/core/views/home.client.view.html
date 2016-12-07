@@ -1,0 +1,34 @@
+<section data-ng-controller="HomeController" data-ng-init="prepare()" cg-busy="authenticationPromise">
+	<br>
+	<div class="col-xs-offset-2 col-xs-8 col-md-offset-4 col-md-4" ng-if="!authentication.user">
+		<form data-ng-submit="signin()" class="signin form-horizontal" autocomplete="off">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Signin
+				</div>
+				<div class="panel-body">
+					<div class="col-md-12">
+						<fieldset>
+							<div class="form-group">
+								<label for="username">Email</label>
+								<input type="text" id="email" name="email" class="form-control" data-ng-model="credentials.email" placeholder="Email">
+							</div>
+							<div class="form-group">
+								<label for="password">Password</label>
+								<input type="password" id="password" name="password" class="form-control" data-ng-model="credentials.password" placeholder="Password">
+							</div>
+							<div class="form-group">
+							</div>
+							<div data-ng-show="error" class="text-center text-danger">
+								<strong data-ng-bind="error"></strong>
+							</div>
+						</fieldset>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<button type="submit" class="btn btn-primary">Sign in</button>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>

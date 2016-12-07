@@ -1,0 +1,128 @@
+<section data-ng-controller="EroTimesheetListController" data-ng-init="prepare()">
+    <div  class="page-header">
+        <h3>Timesheet</h3>
+    </div>
+	<br>
+    <div class="col-md-6">
+        <div class="panel panel-default" cg-busy="resourcePromise">
+            <div class="panel-heading">
+                Resource
+            </div>
+            <table class="table table-striped table-hover"> 
+                <tr>
+                    <td style="width:40%"><b>NIP</b></td>
+                    <td>{{resource.nip}}</td>
+                </tr>
+                <tr>
+                    <td><b>Name</b></td>
+                    <td>{{resource.name}}</td>
+                </tr>
+                <tr>
+                    <td><b>Status Kepegawaian</b></td>
+                    <td>{{resource.statusKepegawaian[0]}}</td>
+                </tr>
+                <tr>
+                    <td><b>Email</b></td>
+                    <td>{{resource.email}}</td>
+                </tr>
+                <tr>
+                    <td><b>Join Date</b></td>
+                    <td>{{resource.joinDate_asString}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+	<div class="col-md-12" cg-busy="timesheetListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+        	<div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-control" 
+                                ng-model="selectedMonthData" 
+                                ng-options="aMonthData.name for aMonthData in monthDataList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-show="timesheetList.length === 0">
+                Tidak ada data
+            </div>
+        	<table class="table table-bordered table-hover" ng-show="timesheetList.length > 0"> 
+        		<tr>
+                    <th rowspan="2" style="width:5%;text-align:center">No</th> 
+        			<th rowspan="2" style="width:10%;text-align:center">Tanggal</th>
+                    <th rowspan="2" style="width:10%;text-align:center">Client</th>
+                    <th rowspan="2" style="width:5%;text-align:center">Status</th>
+                    <th colspan="3" style="width:15%;text-align:center">Jam Kerja</th>
+                    <th colspan="3" style="width:15%;text-align:center">OT</th>
+                    <th rowspan="2" style="width:30%;text-align:center">Kegiatan</th>
+        			<th rowspan="2" style="width:10%;text-align:center">Action</th>
+                </tr>
+                <tr>
+                    <th style="width:5%;text-align:center">Mulai</th>
+                    <th style="width:5%;text-align:center">Selesai</th>
+                    <th style="width:5%;text-align:center">Total</th>
+                    <th style="width:5%;text-align:center">Mulai</th>
+                    <th style="width:5%;text-align:center">Selesai</th>
+                    <th style="width:5%;text-align:center">Total</th>
+                </tr>
+        		<tr ng-repeat="aTimesheet in timesheetList | orderBy: 'tanggal_asDate'">
+                    <td style="text-align:center">{{$index + 1}}</td>
+        			<td style="text-align:center">{{aTimesheet.tanggal_asString}}</td>
+                    <td>{{aTimesheet.placement.client.name}}</td>
+                    <td style="text-align:center">
+                        <p ng-if="aTimesheet.statusAbsensi === 'Masuk'" class="bg-default">M</p>
+                        <p ng-if="aTimesheet.statusAbsensi === 'Libur'" class="bg-success">L</p>
+                        <p ng-if="aTimesheet.statusAbsensi === 'Cuti'" class="bg-info">C</p>
+                        <p ng-if="aTimesheet.statusAbsensi === 'Sakit'" class="bg-warning">S</p>
+                        <p ng-if="aTimesheet.statusAbsensi === 'Alfa'" class="bg-danger">A</p>
+                    </td>
+                    <td style="text-align:center">{{aTimesheet.jamKerjaMulai}}</td>
+                    <td style="text-align:center">{{aTimesheet.jamKerjaSelesai}}</td>
+                    <td style="text-align:center">{{aTimesheet.jamKerjaTotal}}</td>
+                    <td style="text-align:center">{{aTimesheet.jamOTMulai}}</td>
+                    <td style="text-align:center">{{aTimesheet.jamOTSelesai}}</td>
+                    <td style="text-align:center">{{aTimesheet.jamOTTotal}}</td>
+                    <td>{{aTimesheet.kegiatan}}</td>
+        			<td style="text-align:center">
+                        <div class="btn-group">
+                            <button ng-if="!aTimesheet.editable" ng-click="openDetailTimesheetDialog(aTimesheet)" class="btn btn-info btn-xs">Detail</button>
+                            <button ng-if="!aTimesheet.editable" type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            
+                            <button ng-if="aTimesheet.editable" ng-click="openDetailTimesheetDialog(aTimesheet)" class="btn btn-warning btn-xs">Detail</button>
+                            <button ng-if="aTimesheet.editable" type="button" class="btn btn-warning btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a ng-click="openDetailTimesheetDialog(aTimesheet)">Detail</a></li>
+                                <li ng-if="aTimesheet.editable"><a ng-click="openEditTimesheetDialog(aTimesheet)">Edit</a></li>
+                            </ul>
+                        </div>
+        			</td>
+        		</tr>
+        	</table>
+            <div class="panel-body" ng-show="timesheetList.length > 0">
+                <b>Status:</b>
+                <br>
+                <span class="bg-default">M = Masuk</span>
+                <br>
+                <span class="bg-success">L = Libur</span>
+                <br>
+                <span class="bg-info">C = Cuti</span>
+                <br>
+                <span class="bg-warning">S = Sakit</span>
+                <br>
+                <span class="bg-danger">A = Alfa</span>
+            </div>
+        	<div class="panel-footer">
+                <a class="btn btn-info" ng-click="openPrintTimesheetDialog()">Print Timesheet</a>
+        	</div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,78 @@
+<section data-ng-controller="EroPlacementListController" data-ng-init="prepare()">
+    <div  class="page-header">
+        <h3>Placement</h3>
+    </div>
+	<br>
+	<div class="col-md-12" cg-busy="placementListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+        	<div class="panel-heading">
+                Placement List
+            </div>
+            <div class="panel-body" ng-show="resourceList.length === 0">
+                Tidak ada data
+            </div>
+        	<table class="table table-striped table-hover table-bordered" ng-show="resourceList.length > 0"> 
+                <thead>
+            		<tr>
+                        <th rowspan="2" style="width:5%; text-align: center">No</th> 
+                        <th colspan="3" style="width:40%; text-align: center">Resource</th>
+                        <th colspan="4" style="width:45%; text-align: center">Placement</th>
+                        <th rowspan="2" style="width:10%; text-align: center">Action</th>
+                    </tr>
+                    <tr>
+                        <th style="width:10%; border-bottom-width: 0; text-align: center">NIP</th>
+                        <th style="width:15%; border-bottom-width: 0; text-align: center">Name</th>
+                        <th style="width:10%; border-bottom-width: 0; text-align: center">Status Kepegawaian</th>
+
+                        <th style="width:15%; border-bottom-width: 0; text-align: center">Client</th>
+                        <th style="width:15%; border-bottom-width: 0; text-align: center">PRF Date</th>
+                        <th style="width:10%; border-bottom-width: 0; text-align: center">Onboard</th>
+                        <th style="width:10%; border-bottom-width: 0; text-align: center">Rumpun Technology</th>
+                    </tr>
+                </thead>
+                <tbody>
+            		<tr ng-repeat="aResource in resourceList | orderBy: 'name'">
+                        <td>{{$index + 1}}</td>
+                        <td>{{aResource.nip}}</td>
+                        <td>{{aResource.name}}</td>
+                        <td>
+                            <span ng-if="aResource.statusKepegawaian[0] === 'active'" class="text-success">Aktif</span>
+                            <span ng-if="aResource.statusKepegawaian[0] === 'resign'" class="text-danger">Resign</span>
+                        </td>
+            			<td>{{aResource.lastPlacement.clientName}}</td>
+                        <td>{{aResource.lastPlacement.fromDate_asString}} ~ {{aResource.lastPlacement.toDate_asString}}</td>
+                        <td>{{aResource.lastPlacement.fromDateReal_asString}}</td>
+                        <td>{{aResource.lastPlacement.rumpunTechnology[0]}}</td>
+                        <td>
+                            <div class="btn-group">
+                                <button ng-click="detailPlacements(aResource)" class="btn btn-info btn-xs">Detail</button>
+                                <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><p class="text-center">{{aResource.name}}</p></li>
+                                    <li class="divider"></li>
+                                    <li><a ng-click="detailPlacements(aResource)">Detail Placements</a></li>
+                                    <li><a ng-click="projectList(aResource)">Project List</a></li>
+                                    <li class="divider"></li>
+                                    <li><a ng-click="persistensi(aResource)">Persistensi</a></li>
+                                    <li><a ng-click="timesheetCollection(aResource)">TS Collecting</a></li>
+                                    <li><a ng-click="timesheet(aResource)">Timesheet</a></li>
+                                    <li><a ng-click="performance(aResource)">Performance</a></li>
+                                    <li class="divider"></li>
+                                    <li><a ng-click="newExternalPlacement(aResource)">Placement (External)</a></li>
+                                    <li><a ng-click="newInternalPlacement(aResource)">Placement (Internal)</a></li>
+                                </ul>
+                                <button ng-click="migration(aResource)" class="btn btn-warning btn-xs"><span class="glyphicon glyphicon-play"></span></button>
+                            </div>
+                        </td>
+            		</tr>
+                </tbody>
+        	</table>
+        </div>
+    </div>	
+</section>

@@ -1,0 +1,339 @@
+<section data-ng-controller="EroTimesheetTemplateListController" data-ng-init="prepare()">
+    <div  class="page-header">
+        <h3>Timesheet Template</h3>
+    </div>
+	<br>
+    <div class="col-md-12" cg-busy="yearListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-3">
+                        <select class="form-control" 
+                                ng-model="selectedYear" 
+                                ng-options="aYear.year for aYear in yearList"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body" ng-show="!timesheetTemplate" cg-busy="timesheetTemplatePromise">
+            </div>
+            <div class="panel-body" ng-show="timesheetTemplate" cg-busy="timesheetTemplatePromise">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table table-bordered">
+                            <tr>
+                                <td style="width:33%"><center><b>Total Hari:</b> {{timesheetTemplate.totalDays}}</center></td>
+                                <td style="width:33%"><center><b>Total Hari Kerja:</b> {{timesheetTemplate.totalWorkingDays}}</center></td>
+                                <td style="width:33%"><center><b>Total Hari Libur:</b> {{timesheetTemplate.totalHolidays}}</center></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Januari {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[0].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Februari {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[1].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Maret {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[2].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                April {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[3].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Mei {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[4].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Juni {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[5].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Juli {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[6].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Agustus {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[7].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                September {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[8].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Oktober {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[9].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                November {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[10].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                Desember {{timesheetTemplate.year}}
+                            </div>
+                            <table class="table table-striped table-hover">
+                                <tr>
+                                    <th style="width:10%">Tanggal</th>
+                                    <th style="width:40%">Status</th>
+                                    <th style="width:50%">Notes</th>
+                                </tr>
+                                <tr ng-repeat="aDay in timesheetTemplate.monthList[11].dayList | orderBy: 'day'" ng-class="{danger: aDay.status === 'Libur' || aDay.status === 'Cuti'}">
+                                    <td>{{aDay.day}}</td>
+                                    <td><select class="form-control" 
+                                                ng-model="aDay.status" 
+                                                ng-options="status as status for status in statusList"></select>
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" data-ng-model="aDay.notes">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            <div class="panel-footer">
+                <button ng-click="updateTimesheetTemplate()" >Simpan</button>
+            </div>
+        </div>
+    </div>
+</section>

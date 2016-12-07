@@ -1,0 +1,71 @@
+<div class="row" cg-busy="eventPromise">
+    <div class="col-md-12">
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <div class="panel-body" ng-show="coorporateEventList.length === 0">
+            <p style="text-align:center; font-size: 1em;"> Tidak ada data</p>
+        </div>
+        <form name="coorporateEventForm" class="form-horizontal" role="form" ng-show="coorporateEventList.length > 0">
+            <table class="table table-striped table-hover">
+                <tr>
+                    <th style="width:55%">Event Name</th>
+                    <th style="width:30%">Event Date</th>
+                    <th style="width:15%">join ?</th>
+                </tr>
+                <tr ng-repeat="aCoorporateEvent in (coorporateEventList |filter:{employeeGathering:false,sharingKnowledge:false} |orderBy: 'name') track by aCoorporateEvent._id "
+                   >
+                    <td>{{aCoorporateEvent.name}}</td>
+                    <td>{{aCoorporateEvent.eventDate_asString}}</td>
+                    <td><input type="checkbox" name="selectedEvent" ng-model="selection.idx[aCoorporateEvent._id]"/>
+                    </td>
+                </tr>
+                <!--<tr ng-repeat="aCoorporateEvent in coorporateEventList track by aCoorporateEvent._id| orderBy: 'name'"-->
+                <!--ng-if="aCoorporateEvent.sharingKnowledge">-->
+                <!--<td>{{aCoorporateEvent.name}}</td>-->
+                <!--<td>{{aCoorporateEvent.eventDate_asString}}</td>-->
+                <!--<td><input type="checkbox" name="selectedEvent" ng-model="selection.idx[aCoorporateEvent._id]"-->
+                <!--ng-change="checkChanged(selection,aCoorporateEvent._id)"-->
+                <!--ng-disabled="checked==limit && !selection.idx[aCoorporateEvent._id]"/></td>-->
+                <!--</tr>-->
+                <tr>
+                    <td><select
+                            ng-options="event.name for event in (coorporateEventList | filter:{employeeGathering:true}|orderBy: 'name') track by event._id"
+                            ng-model="eg" ng-disabled="selection.idx[eg._id]" >
+                        <option value=''disabled selected>Employee Gathering</option>
+                    </select>
+                    </td>
+                    <td>{{eg.eventDate_asString}}</td>
+                    <td><input type="checkbox" name="selectedEvent" ng-model="selection.idx[eg._id]" ng-disabled="eg==null"/>
+                </tr>
+                <tr>
+                    <td><select
+                            ng-options="event.name for event in (coorporateEventList | filter:{sharingKnowledge:true}|orderBy: 'name') track by event._id"
+                            ng-model="sk1" ng-disabled="selection.idx[sk1._id]">
+                        <option value=''disabled selected>Sharing Knowledge I</option>
+                    </select>
+                    </td>
+                    <td>{{sk1.eventDate_asString}}</td>
+                    <td><input type="checkbox" name="selectedEvent" ng-model="selection.idx[sk1._id]" ng-disabled="sk1==null"/>
+                </tr>
+                <tr>
+                    <td><select
+                            ng-options="event.name for event in (coorporateEventList | filter:{sharingKnowledge:true}|orderBy: 'name'|filter:{_id:'!'+sk1._id}) track by event._id"
+                            ng-model="sk2" ng-disabled="selection.idx[sk2._id]">
+                        <option value=''disabled selected>Sharing Knowledge II</option>
+                    </select>
+                    </td>
+                    <td>{{sk2.eventDate_asString}}</td>
+                    <td><input type="checkbox" name="selectedEvent" ng-model="selection.idx[sk2._id]" ng-disabled="sk2==null"/>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="form-group">
+                <div style="text-align:center;">
+                    <button type="submit" class="btn btn-default" ng-click="simpan()">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

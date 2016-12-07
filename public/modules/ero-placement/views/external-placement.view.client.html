@@ -1,0 +1,96 @@
+<div class="row" cg-busy="placementPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>External Placement</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <form name="placementForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="user" class="col-sm-3 control-label">Name / NIP</label>
+                <div class="col-sm-7">
+                    <label class="control-label">{{ngDialogData.aResource.name}} / {{ngDialogData.aResource.nip}}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="prfNumber" class="col-sm-3 control-label">PRF Number</label>
+                <div class="col-sm-2" ng-class="{'has-error' : placementForm.prfNumber.$invalid}">
+                    <input type="text" class="form-control" name="prfNumber" id="prfNumber" ng-model="placement.prfNumber" required>
+                </div>
+                <label for="name" class="col-sm-1 control-label">Client</label>
+                <div class="col-sm-3" ng-class="{'has-error' : placementForm.client.$invalid}">
+                    <select id="client"
+                            name="client"
+                            required
+                            class="form-control" 
+                            ng-model="placement.client"
+                            ng-options="client._id as client.name for client in clientList"></select>
+                </div>
+                <label for="name" class="col-sm-1 control-label">Type</label>
+                <div class="col-sm-2" ng-class="{'has-error' : placementForm.placementType.$invalid}">
+                    <select id="placementType"
+                            name="placementType"
+                            required
+                            class="form-control" 
+                            ng-model="placement.placementType" 
+                            ng-options="placementType as placementType for placementType in placementTypeList"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">PRF Placement Date</label>
+                <div class="col-sm-4" ng-class="{'has-error' : placementForm.fromDate.$invalid}">
+                    <p class="input-group">
+                        <input name="fromDate" id="fromDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="fromDate_asDate" is-open="fromDateOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openFromDate($event)" required placeholder="From"/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openFromDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+                <label class="col-sm-1 control-label">s/d</label>
+                <div class="col-sm-4" ng-class="{'has-error' : placementForm.toDate.$invalid}">
+                    <p class="input-group">
+                        <input name="toDate" id="toDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="toDate_asDate" is-open="toDateOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openToDate($event)" required placeholder="To"/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openToDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">Onboard Date</label>
+                <div class="col-sm-4" ng-class="{'has-error' : placementForm.fromDateReal.$invalid}">
+                    <p class="input-group">
+                        <input name="fromDateReal" id="fromDateReal" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="fromDateReal_asDate" is-open="fromDateRealOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openFromDateReal($event)" required/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openFromDateReal($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+                <div class="col-sm-5" ng-class="{'has-error' : placementForm.timesheetCollectingDate.$invalid}">
+                    <input type="text" class="form-control" name="timesheetCollectingDate" id="timesheetCollectingDate" placeholder="TS Collecting Date in Every Month" ng-model="placement.timesheetCollectingDate" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="location" class="col-sm-3 control-label">Location</label>
+                <div class="col-sm-4" ng-class="{'has-error' : placementForm.location.$invalid}">
+                    <input type="text" class="form-control" name="location" id="location" ng-model="placement.location" required>
+                </div>
+                <label for="name" class="col-sm-2 control-label">Technology</label>
+                <div class="col-sm-3" ng-class="{'has-error' : placementForm.rumpunTechnology.$invalid}">
+                    <select id="rumpunTechnology"
+                            name="rumpunTechnology"
+                            required
+                            class="form-control" 
+                            ng-model="placement.rumpunTechnology" 
+                            ng-options="rumpunTechnology as rumpunTechnology for rumpunTechnology in rumpunTechnologyList"></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label">Notes</label>
+                <div class="col-sm-9">
+                    <textarea type="textarea" style="resize:none" rows="4" class="form-control" name="notes" id="notes" placeholder="Notes" ng-model="placement.notes"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-7">
+                    <button type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="placementForm.$invalid">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,120 @@
+<section data-ng-controller="EroHomeController">
+	<div  class="page-header">
+        <h3>Dashboard ({{today}})</h3>
+    </div>
+	<br>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					Sebaran Active Resource
+				</div>
+				<table class="table">
+					<tr>
+						<td>External Placement</td>
+						<td>{{countOfExternalPlacement}}</td>
+					</tr>
+					<tr>
+						<td>Internal Placement</td>
+						<td>{{countOfInternalPlacement}}</td>
+					</tr>
+					<tr>
+						<td>Unknown Placement</td>
+						<td>{{countOfUnknownPlacement}}</td>
+					</tr>
+				</table>
+				<div class="panel-footer">
+					Total Resource : {{totalCountOfActiveResource}}
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-9">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>External Placement</h3>
+				</div>
+				<table class="table table-striped table-hover table-bordered"> 
+					<thead>
+						<tr class="text-center">
+							<td>#</td>
+							<td>Client</td>
+							<td># Resource</td>
+							<td>Overdue</td>
+							<td>0 sd &lt;7 hari</td>
+							<td>7 sd &lt;14 hari</td>
+							<td>14 sd &lt;28 hari</td>
+							<td>&gt;=28 hari</td>
+						</tr>
+					</thead>
+					<tbody class="text-center">
+						<tr ng-repeat="externalPlacement in externalPlacementList | orderBy: 'client.name'">
+							<td class="text-right">{{$index + 1}}</td>
+							<td class="text-left"><a ng-click="openDetailPlacementOnClientDialog(externalPlacement)">{{externalPlacement.client.name}}</a></td>
+							<td>{{externalPlacement.resourceList.length}}</td>
+							<td ng-class="externalPlacement.countOfOverDuePRF > 0 ? 'bg-danger' : ''">{{externalPlacement.countOfOverDuePRF}}</td>
+							<td ng-class="externalPlacement.countOfOneWeekPRF > 0 ? 'bg-primary' : ''">{{externalPlacement.countOfOneWeekPRF}}</td>
+							<td ng-class="externalPlacement.countOfTwoWeekPRF > 0 ? 'bg-warning' : ''">{{externalPlacement.countOfTwoWeekPRF}}</td>
+							<td ng-class="externalPlacement.countOfFourWeekPRF > 0 ? 'bg-info' : ''">{{externalPlacement.countOfFourWeekPRF}}</td>
+							<td ng-class="externalPlacement.countOfMoreThanFourWeekPRF > 0 ? 'bg-success' : ''">{{externalPlacement.countOfMoreThanFourWeekPRF}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					Total Resource : {{countOfExternalPlacement}}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Internal Placement</h3>
+				</div>
+				<table class="table table-striped table-hover table-bordered"> 
+					<thead>
+						<tr>
+							<td>#</td>
+							<td>Assignment</td>
+							<td># Resource</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="internalPlacement in internalPlacementList | orderBy: 'client.name'">
+							<td>{{$index + 1}}</td>
+							<td><a ng-click="openDetailPlacementOnClientDialog(internalPlacement)">{{internalPlacement.client.name}}</a></td>
+							<td>{{internalPlacement.resourceList.length}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					Total Resource : {{countOfInternalPlacement}}
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3>Unknown Placement</h3>
+				</div>
+				<table class="table table-striped table-hover table-bordered"> 
+					<thead>
+						<tr>
+							<td>#</td>
+							<td>Name</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="unknownPlacement in unknownPlacementList | orderBy: 'client.name'">
+							<td>{{$index + 1}}</td>
+							<td>{{unknownPlacement.name}}</td>
+						</tr>
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					Total Resource : {{countOfUnknownPlacement}}
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

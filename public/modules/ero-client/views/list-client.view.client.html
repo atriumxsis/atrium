@@ -1,0 +1,38 @@
+<section data-ng-controller="EroClientListController" data-ng-init="prepare()">
+    <div  class="page-header">
+        <h3>Client</h3>
+    </div>
+	<br>
+	<div class="col-md-12" cg-busy="clientListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+        	<div class="panel-heading">
+                Client List
+            </div>
+            <div class="panel-body" ng-show="clientList.length === 0">
+                Tidak ada data
+            </div>
+        	<table class="table table-striped table-hover" ng-show="clientList.length > 0"> 
+        		<tr>
+                    <th style="width:10%">No</th> 
+                    <th style="width:65%">Nama Client</th>
+                    <th style="width:10%">External ?</th>
+        			<th style="width:15%">Action</th>
+        		</tr>
+        		<tr ng-repeat="aClient in clientList | orderBy: 'name'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{aClient.name}}</td>
+                    <td>{{aClient.external}}</td>
+        			<td>
+                        <button type="button" data-ng-click="openEditClientDialog(aClient);" class="btn btn-warning btn-xs">Edit</button>
+        			</td>
+        		</tr>
+        	</table>
+        	<div class="panel-footer">
+                <a class="btn btn-primary" ng-click="openTambahClientDialog()">Tambah Client</a>
+        	</div>
+        </div>
+    </div>	
+</section>

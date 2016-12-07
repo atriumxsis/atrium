@@ -1,0 +1,122 @@
+<div class="row" data-ng-controller="DetailPlacementsController" data-ng-init="prepare()">
+    <div class="col-md-12">
+        <div  class="page-header" cg-busy="clientListPromise">
+            <h3>Detail Placements</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" cg-busy="resourcePromise">
+                <div class="panel-heading">
+                    Resource
+                </div>
+                <table class="table table-striped table-hover"> 
+                    <tr>
+                        <td style="width:40%"><b>NIP</b></td>
+                        <td>{{resource.nip}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td>{{resource.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Status Kepegawaian</b></td>
+                        <td>{{resource.statusKepegawaian[0]}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td>{{resource.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Join Date</b></td>
+                        <td>{{resource.joinDate_asString}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" cg-busy="resourcePromise">
+                <div class="panel-heading">
+                    Last Placement
+                </div>
+                <div class="panel-body" ng-if="!resource.lastPlacement">
+                    Tidak ada data
+                </div>
+                <table class="table table-striped table-hover" ng-if="resource.lastPlacement"> 
+                    <tr>
+                        <td style="width:40%"><b>Client</b></td>
+                        <td>{{resource.lastPlacement.clientName}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>PRF Number</b></td>
+                        <td>{{resource.lastPlacement.prfNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Placement Type</b></td>
+                        <td>{{resource.lastPlacement.placementType[0]}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Placement Periode</b></td>
+                        <td>{{resource.lastPlacement.fromDate_asString}} to {{resource.lastPlacement.toDate_asString}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Onboard</b></td>
+                        <td>{{resource.lastPlacement.fromDateReal_asString}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>TS Collecting Date</b></td>
+                        <td>{{resource.lastPlacement.timesheetCollectingDate}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Notes</b></td>
+                        <td>{{resource.lastPlacement.notes}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default" cg-busy="placementListPromise">
+                <div class="panel-heading">
+                    Placement List
+                </div>
+                <div class="panel-body" ng-if="placementList.length === 0">
+                    Tidak ada data
+                </div>
+                <table class="table table-striped table-hover table-bordered" ng-if="placementList.length > 0"> 
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="width:5%; text-align: center">No</th>
+                            <th rowspan="2" style="width:5%; text-align: center">PRF Number</th>
+                            <th rowspan="2" style="width:10%; text-align: center">Client</th>
+                            <th rowspan="2" style="width:5%; text-align: center">Placement Type</th>
+                            <th rowspan="2" style="width:10%; text-align: center">Rumpun Technology</th>
+                            <th colspan="4" style="width:30%; text-align: center">Placement</th>
+                            <th rowspan="2" style="width:5%; text-align: center">Action</th>
+                        </tr>
+                        <tr>
+                            <th style="width:10%; text-align: center; border-bottom-width: 0;">From (PRF)</th>
+                            <th style="width:10%; text-align: center; border-bottom-width: 0;">To (PRF)</th>
+                            <th style="width:10%; text-align: center; border-bottom-width: 0;">Onboard</th>
+                            <th style="width:10%; text-align: center; border-bottom-width: 0;">TS Collecting Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="placement in placementList | orderBy: 'fromDateReal_asDate'">
+                            <td>{{$index + 1}}</td>
+                            <td>{{placement.prfNumber}}</td>
+                            <td>{{placement.client.name}}</td>
+                            <td>{{placement.placementType[0]}}</td>
+                            <td>{{placement.rumpunTechnology[0]}}</td>
+                            <td>{{placement.fromDate_asString}}</td>
+                            <td>{{placement.toDate_asString}}</td>
+                            <td>{{placement.fromDateReal_asString}}</td>
+                            <td>{{placement.timesheetCollectingDate}}</td>
+                            <td><button ng-click="editPlacement(placement)" class="btn btn-info btn-xs">Edit</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

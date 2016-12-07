@@ -1,0 +1,64 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>{{dialogTitle}}</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <form name="resourceForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">NIP</label>
+                <div class="col-sm-8" ng-class="{'has-error' : resourceForm.nip.$invalid}">
+                    <input type="text" class="form-control" name="nip" id="nip" placeholder="NIP" ng-model="resource.nip" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">Nama Resource</label>
+                <div class="col-sm-8" ng-class="{'has-error' : resourceForm.name.$invalid}">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Nama Resource" ng-model="resource.name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-4 control-label">Aktif ?</label>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="resource.aktif"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">Email</label>
+                <div ng-if="!editMode" class="col-sm-8" ng-class="{'has-error' : resourceForm.email.$invalid}">
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Email" ng-model="resource.email" required>
+                </div>
+                <div ng-if="editMode" class="col-sm-8" ng-class="{'has-error' : resourceForm.email.$invalid}">
+                    {{resource.email}}
+                </div>
+            </div>
+            <div class="form-group" ng-if="!editMode">
+                <label for="name" class="col-sm-4 control-label">Password</label>
+                <div class="col-sm-8" ng-class="{'has-error' : resourceForm.password.$invalid}">
+                    <input type="password" class="form-control" name="password" id="password" placeholder="Password" ng-model="resource.password" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="tanggal" class="col-sm-4 control-label">Tanggal Join</label>
+                <div class="col-sm-8" ng-class="{'has-error' : resourceForm.joinDate.$invalid}">
+                    <p class="input-group">
+                        <input name="joinDate" id="joinDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="joinDate_asDate" is-open="opened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openJoinDate($event)" required/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openJoinDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="resourceForm.$invalid">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

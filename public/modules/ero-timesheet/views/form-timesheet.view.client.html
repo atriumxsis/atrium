@@ -1,0 +1,100 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>Timesheet Form</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <form name="timesheetForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="tanggal" class="col-sm-4 control-label">Tanggal</label>
+                <div class="col-sm-6" ng-class="{'has-error' : timesheetForm.tanggal.$invalid}">
+                    <label class="control-label">{{timesheet.tanggal_asString}}</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="client" class="col-sm-4 control-label">Client</label>
+                <div class="col-sm-8">
+                    <label ng-show="timesheet.tanggal !== null && matchedPlacement === null" class="control-label" style="color:red">Tidak ada data</label>
+                    <label ng-show="timesheet.tanggal !== null && matchedPlacement !== null" class="control-label">{{matchedPlacement.client.name}}</label>
+                </div>
+            </div>
+            <div class="form-group" ng-class="{'has-error' : timesheetForm.statusAbsensi.$invalid}">
+                <label for="statusAbsensi" class="col-sm-4 control-label">Status Absensi</label>
+                    <div class="col-sm-8">           
+                        <div class="radio col-sm-2">
+                            <p class="input-group">
+                                 <input type="radio" ng-model="timesheet.statusAbsensi" value="Masuk">Masuk</input>
+                            </p>
+                        </div>
+                        <div class="radio col-sm-2">
+                            <p class="input-group">
+                                 <input type="radio" ng-model="timesheet.statusAbsensi" value="Sakit">Sakit</input>
+                            </p>
+                        </div>
+                        <div class="radio col-sm-2">
+                            <p class="input-group">
+                                 <input type="radio" ng-model="timesheet.statusAbsensi" value="Cuti">Cuti</input>
+                            </p>
+                        </div>
+                        <div class="radio col-sm-2">
+                            <p class="input-group">
+                                 <input type="radio" ng-model="timesheet.statusAbsensi" value="Libur">Libur</input>
+                            </p>
+                        </div>
+                        <div class="radio col-sm-2">
+                            <p class="input-group">
+                                 <input type="radio" ng-model="timesheet.statusAbsensi" value="Alfa">Alfa</input>
+                            </p>
+                        </div>
+                    </div>
+                </label>     
+            </div>
+            <div class="form-group" ng-if="timesheet.statusAbsensi === 'Masuk'">
+                <label for="jamKerjaMulai" class="col-sm-4 control-label">Jam Kerja</label>
+                <div class="col-sm-3" ng-class="{'has-error' : timesheetForm.jamKerjaMulai.$invalid}">
+                    <label class="control-label">
+                        <time-picker time="timesheet.jamKerjaMulai"></time-picker>
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <center><label class="control-label">s/d</label></center>
+                </div>
+                <div class="col-sm-3" ng-class="{'has-error' : timesheetForm.jamKerjaSelesai.$invalid}">
+                    <label class="control-label">
+                        <time-picker time="timesheet.jamKerjaSelesai"></time-picker>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group" ng-if="timesheet.statusAbsensi === 'Masuk'">
+                <label class="col-sm-4 control-label">OT</label>
+                <div class="col-sm-3">
+                    <label class="control-label">
+                        <time-picker time="timesheet.jamOTMulai"></time-picker>
+                    </label>
+                </div>
+                <div class="col-sm-2">
+                    <center><label class="control-label">s/d</label></center>
+                </div>
+                <div class="col-sm-3">
+                    <label class="control-label">
+                        <time-picker time="timesheet.jamOTSelesai"></time-picker>
+                    </label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="kegiatan" class="col-sm-4 control-label">Kegiatan</label>
+                <div class="col-sm-8" ng-class="{'has-error' : timesheetForm.kegiatan.$invalid}">
+                    <textarea type="textarea" style="resize:none" rows="4" class="form-control" name="kegiatan" id="kegiatan" placeholder="Kegiatan" ng-model="timesheet.kegiatan" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button ng-if="timesheet.statusAbsensi !== 'Masuk'" type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="timesheetForm.$invalid || matchedPlacement === null || !timesheet.statusAbsensi">Simpan</button>
+                    <button ng-if="timesheet.statusAbsensi === 'Masuk'" type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="timesheetForm.$invalid || matchedPlacement === null || !timesheet.statusAbsensi || !timesheet.jamKerjaMulai || !timesheet.jamKerjaSelesai">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

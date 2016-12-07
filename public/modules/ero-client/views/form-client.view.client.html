@@ -1,0 +1,33 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>{{dialogTitle}}</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <form name="clientForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">Nama Client</label>
+                <div class="col-sm-8" ng-class="{'has-error' : clientForm.name.$invalid}">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Nama Client" ng-model="client.name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-4 control-label">External ?</label>
+                <div class="col-sm-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="client.external"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <button type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="clientForm.$invalid">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

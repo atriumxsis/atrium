@@ -1,0 +1,33 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>Detail Timesheet</h3>
+        </div>
+        <table class="table table-striped">
+            <tr>
+                <td style="width:25%"><b>Tanggal</b></td>
+                <td>{{timesheet.tanggal_asString}}</td>
+            </tr>
+            <tr>
+                <td><b>Status Absensi</b></td>
+                <td>{{timesheet.statusAbsensi}}</td>
+            </tr>
+            <tr>
+                <td><b>Client</b></td>
+                <td>{{timesheet.placement.client.name}}</td>
+            </tr>
+            <tr>
+                <td><b>Jam Kerja</b></td>
+                <td>{{timesheet.jamKerjaMulai}} <span ng-if="timesheet.jamKerjaMulai && timesheet.jamKerjaSelesai">-</span> {{timesheet.jamKerjaSelesai}} <span ng-if="timesheet.jamKerjaTotal">({{timesheet.jamKerjaTotal}})</span></td>
+            </tr>
+            <tr>
+                <td><b>OT</b></td>
+                <td>{{timesheet.jamOTMulai}} <span ng-if="timesheet.jamOTMulai && timesheet.jamOTSelesai">-</span> {{timesheet.jamOTSelesai}} <span ng-if="timesheet.jamOTTotal">({{timesheet.jamOTTotal}})</span></td>
+            </tr>
+            <tr>
+                <td><b>Kegiatan</b></td>
+                <td>{{timesheet.kegiatan}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,25 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+       <!-- <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>{{dialogTitle}}</h3>
+        </div>-->
+       <!-- <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>-->
+        <form name="deleteEventForm" class="form-horizontal" role="form">
+            <input type="hidden" class="form-control" name="name" id="name" placeholder="Nama Event" data-ng-model="event._id">
+            <p style="text-align:center; font-size: 1em;" >Are you sure want do delete this event?</p>
+            <div class="form-group">
+                <div style="text-align:center;">
+                    <button type="submit" class="btn btn-danger" ng-click="hapus()" ng-disabled="eventForm.$invalid">Delete</button>
+                    <button type="reset" class="btn btn-warning" ng-click="cancel()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+

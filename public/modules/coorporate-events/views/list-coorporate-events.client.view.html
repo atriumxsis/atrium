@@ -1,0 +1,59 @@
+<section data-ng-controller="CoorporateEventsController" data-ng-init="prepare()">
+    <div class="page-header">
+        <h3>Coorporate events</h3>
+    </div>
+    <br>
+
+    <div class="col-md-12" cg-busy="eventListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Coorporate Event List
+            </div>
+            <div class="panel-body" ng-show="coorporateEvents.length === 0">
+                Tidak ada data
+            </div>
+            <table class="table table-striped table-hover" ng-show="coorporateEvents.length > 0">
+                <tr>
+                    <th style="width:10%">No</th>
+                    <th style="width:40%">Event Name</th>
+                    <th style="width:20%">Event Date</th>
+                    <th style="width:15%">Mandatory</th>
+                    <th style="width:15%">Action</th>
+                </tr>
+                <tr ng-repeat="aEvent in coorporateEvents | orderBy: 'name'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{aEvent.name}}</td>
+                    <td>{{aEvent.eventDate_asString}}</td>
+                    <td>{{aEvent.mandatory?'yes':'no'}}</td>
+                    <td>
+                        <button type="button" data-ng-click="openEditEventDialog(aEvent);" class="btn btn-warning btn-xs">Edit</button>
+                    <!--</td>-->
+                    <!--<td>-->
+                        <button type="button" data-ng-click="openDeleteEventDialog(aEvent);" class="btn btn-danger btn-xs">Delete</button>
+                    </td>
+                </tr>
+            </table>
+            <div class="panel-footer">
+                <a class="btn btn-primary" ng-click="openTambahEventDialog()">Add</a>
+            </div>
+        </div>
+    </div>
+
+
+    <!--yang asli-->
+    <!--<div class="list-group">-->
+        <!--<a data-ng-repeat="coorporateEvent in coorporateEvents" data-ng-href="#!/ero/coorporate-events/{{coorporateEvent._id}}" class="list-group-item">-->
+			<!--<small class="list-group-item-text">-->
+				<!--Posted on-->
+				<!--<span data-ng-bind="coorporateEvent.created | date:'medium'"></span>-->
+			<!--</small>-->
+			<!--<h4 class="list-group-item-heading" data-ng-bind="coorporateEvent.name"></h4>-->
+        <!--</a>-->
+    <!--</div>-->
+    <!--<div class="alert alert-warning text-center" data-ng-hide="!coorporateEvents.$resolved || coorporateEvents.length">-->
+    	<!--No Coorporate events yet, why don't you <a href="/#!/ero/coorporate-events/create">create one</a>?-->
+    <!--</div>-->
+</section>

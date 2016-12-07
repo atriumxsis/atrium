@@ -1,0 +1,244 @@
+<section data-ng-controller="ResourceHomeController">
+	<div  class="page-header">
+        <h3>Performance {{year}} (Year-To-Date)</h3>
+    </div>
+	<br>
+	<div class="col-md-12" cg-busy="performancePromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="row">
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Produktivitas</b>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                            <h3>{{totalBillable * 100 | number:3}} %</h3>
+                            <span style="font-size: 0.75em">of 100%</span>
+                        </center>
+                    </div>
+                    <div class="panel-footer">
+                        <a ng-click="openDetailBillable()">Detail</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Persistensi</b> <small>(Kehadiran Acara Perusahaan)</small>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                            <h3>{{totalAbsensi * 100 | number:3}} %</h3>
+                            <span style="font-size: 0.75em">of 100%</span>
+                        </center>
+                    </div>
+                    <div class="panel-footer">
+                        <a ng-click="openDetailAbsensi()">Detail</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Persistensi</b><small>(Timesheet)</small>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                            <h3>{{totalTimesheetCollection * 100 | number:3}} %</h3>
+                            <span style="font-size: 0.75em">of 100%</span>
+                        </center>
+                    </div>
+                    <div class="panel-footer">
+                        <a ng-click="openDetailTimesheetCollection()">Detail</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <b>Kepuasan Pelanggan</b>
+                    </div>
+                    <div class="panel-body">
+                        <center>
+                            <h3>{{totalPenilaianUser * 100 | number:3}} %</h3>
+                            <span style="font-size: 0.75em">of 100%</span>
+                        </center>
+                    </div>
+                    <div class="panel-footer">
+                        <a ng-click="openDetailPenilaianUser()">Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-offset-4 col-md-4">
+            	<div class="panel panel-default">
+            		<div class="panel-heading">
+            			<b>Total Performance</b>
+            		</div>
+            		<div class="panel-body">
+                        <center>
+                            <h1 style="color:red">{{grandTotal * 100 | number:3}} %</h1>
+                            <span style="font-size: 0.75em">of 100%</span>
+                        </center>
+                    </div>
+                    <div class="panel-footer">
+                        <a ng-click="openDetailPerformance()">Detail</a>
+                    </div>
+            	</div>
+            </div>
+        </div>
+	</div>
+</section>
+
+<script type="text/ng-template" id="detailAbsensiDialog">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>Persistensi <small>(Kehadiran Acara Perusahaan)</small></b>
+        </div>
+        <div class="panel-body" ng-show="ngDialogData.performanceList.length === 0">
+            Belum ada data
+        </div>
+        <table class="table table-striped table-hover" ng-show="ngDialogData.performanceList.length > 0"> 
+            <tr>
+                <td>Tahun</td>
+                <td>Jumlah Event</td>
+                <td>Jumlah Event Hadir</td>
+                <td>Performance</td>
+            </tr>
+            <tr ng-repeat="aPerformance in ngDialogData.performanceList | orderBy: 'month'|filter:{isEvent:true}">
+                <td>{{aPerformance.year}}</td>
+                <td>{{aPerformance.kriteriaPersistensi.jumlahEvent}}</td>
+                <td>{{aPerformance.kriteriaPersistensi.jumlahEventHadir}}</td>
+                <td>{{(aPerformance.kriteriaPersistensi.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaPersistensi.kriteriaValue">%</span></td>
+            </tr>
+        </table>
+        <div class="panel-footer">
+            Total: {{ngDialogData.totalAbsensi * 100 | number:3}}%
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="detailBillableDialog">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>Produktivitas</b>
+        </div>
+        <div class="panel-body" ng-show="ngDialogData.performanceList.length === 0">
+            Belum ada data
+        </div>
+        <table class="table table-striped table-hover" ng-show="ngDialogData.performanceList.length > 0"> 
+            <tr>
+                <td>Bulan</td>
+                <td>Masuk</td>
+                <td>Cuti</td>
+                <td>Performance</td>
+            </tr>
+            <tr ng-repeat="aPerformance in ngDialogData.performanceList | orderBy: 'month'|filter:{isEvent:false}">
+                <td>{{aPerformance.month + 1}}</td>
+                <td>{{aPerformance.kriteriaBillableUtilization.jumlahHariMasuk}}</td>
+                <td>{{aPerformance.kriteriaBillableUtilization.jumlahHariCuti}}</td>
+                <td>{{(aPerformance.kriteriaBillableUtilization.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaBillableUtilization.kriteriaValue">%</span></td>
+            </tr>
+        </table>
+        <div class="panel-footer">
+            Total: {{ngDialogData.totalBillable * 100 | number:3}}%
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="detailTimesheetCollectionDialog">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>Persistensi</b> <small>(Timesheet)</small>
+        </div>
+        <div class="panel-body" ng-show="ngDialogData.performanceList.length === 0">
+            Belum ada data
+        </div>
+        <table class="table table-striped table-hover" ng-show="ngDialogData.performanceList.length > 0"> 
+            <tr>
+                <td>Bulan</td>
+                <td>Collection Date</td>
+                <td>Performance</td>
+            </tr>
+            <tr ng-repeat="aPerformance in ngDialogData.performanceList | orderBy: 'month'|filter:{isEvent:false}">
+                <td>{{aPerformance.month + 1}}</td>
+                <td>{{aPerformance.kriteriaTimesheetCollection.collectionDate_asString}}</td>
+                <td>{{(aPerformance.kriteriaTimesheetCollection.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaTimesheetCollection.kriteriaValue">%</span></td>
+            </tr>
+        </table>
+        <div class="panel-footer">
+            Total: {{ngDialogData.totalTimesheetCollection * 100 | number:3}}%
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="detailPenilaianUserDialog">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>Kepuasan Pelanggan</b>
+        </div>
+        <div class="panel-body" ng-show="ngDialogData.performanceList.length === 0">
+            Belum ada data
+        </div>
+        <table class="table table-striped table-hover" ng-show="ngDialogData.performanceList.length > 0"> 
+            <tr>
+                <td>Bulan</td>
+                <td>SKI</td>
+                <td>Kompetensi Pendukung</td>
+                <td>Kedisiplinan</td>
+                <td>Performance</td>
+            </tr>
+            <tr ng-repeat="aPerformance in ngDialogData.performanceList | orderBy: 'month'|filter:{isEvent:false}">
+                <td>{{aPerformance.month + 1}}</td>
+                <td>{{aPerformance.kriteriaPenilaianUser.ski}}</td>
+                <td>{{aPerformance.kriteriaPenilaianUser.kompetensiPendukung}}</td>
+                <td>{{aPerformance.kriteriaPenilaianUser.kedisiplinan}}</td>
+                <td>{{(aPerformance.kriteriaPenilaianUser.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaPenilaianUser.kriteriaValue">%</span></td>
+            </tr>
+        </table>
+        <div class="panel-footer">
+            Total: {{ngDialogData.totalPenilaianUser * 100 | number:3}}%
+        </div>
+    </div>
+</script>
+
+<script type="text/ng-template" id="detailPerformanceDialog">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <b>Performance</b>
+        </div>
+        <div class="panel-body" ng-show="ngDialogData.performanceList.length === 0">
+            Belum ada data
+        </div>
+        <table class="table table-striped table-hover" ng-show="ngDialogData.performanceList.length > 0"> 
+            <tr>
+                <td>Bulan</td>
+                <td>Produktivitas</td>
+                <td>Persistensi (Event)</td>
+                <td>Persistensi (Timesheet)</td>
+                <td>Kepuasan Pelanggan</td>
+                <td>Performance</td>
+            </tr>
+            <tr ng-repeat="aPerformance in ngDialogData.performanceList | orderBy: 'month'">
+                <td><span ng-if="!aPerformance.kriteriaPersistensi.kriteriaValue">{{aPerformance.month + 1}}</span></td>
+                <td>{{(aPerformance.kriteriaBillableUtilization.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaBillableUtilization.kriteriaValue">%</span></td>
+                <td>{{(aPerformance.kriteriaPersistensi.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaPersistensi.kriteriaValue">%</span></td>
+                <td>{{(aPerformance.kriteriaTimesheetCollection.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaTimesheetCollection.kriteriaValue">%</span></td>
+                <td>{{(aPerformance.kriteriaPenilaianUser.kriteriaValue * 100) | number:3}}<span ng-if="aPerformance.kriteriaPenilaianUser.kriteriaValue">%</span></td>
+                <td>{{(aPerformance.totalValue * 100) | number:3}}<span ng-if="aPerformance.totalValue">%</span></td>
+            </tr>
+        </table>
+        <div class="panel-footer">
+            Total: {{ngDialogData.grandTotal * 100 | number:3}}%
+        </div>
+    </div>
+</script>

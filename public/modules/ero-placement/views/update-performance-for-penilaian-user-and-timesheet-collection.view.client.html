@@ -1,0 +1,69 @@
+<div class="row" cg-busy="placementPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>Update Performance</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <form name="performanceForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-5 control-label">SKI</label>
+                <div class="col-sm-7" ng-class="{'has-error' : performanceForm.ski.$invalid}">
+                    <select class="form-control"
+                            id="ski"
+                            name="ski"
+                            ng-model="selectedSki" 
+                            ng-options="aPilihanPenilaianUser.name for aPilihanPenilaianUser in pilihanPenilaianUserList"
+                            required></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Kompetensi Pendukung</label>
+                <div class="col-sm-7" ng-class="{'has-error' : performanceForm.kompetensiPendukung.$invalid}">
+                    <select class="form-control"
+                            id="kompetensiPendukung"
+                            name="kompetensiPendukung"
+                            ng-model="selectedKompetensiPendukung" 
+                            ng-options="aPilihanPenilaianUser.name for aPilihanPenilaianUser in pilihanPenilaianUserList"
+                            required></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Kedisiplinan</label>
+                <div class="col-sm-7" ng-class="{'has-error' : performanceForm.kedisiplinan.$invalid}">
+                    <select class="form-control"
+                            id="kedisiplinan"
+                            name="kedisiplinan"
+                            ng-model="selectedKedisiplinan" 
+                            ng-options="aPilihanPenilaianUser.name for aPilihanPenilaianUser in pilihanPenilaianUserList"
+                            required></select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">TS Collecting Date</label>
+                <div class="col-sm-7" ng-class="{'has-error' : performanceForm.collectionDate.$invalid}">
+                    <p class="input-group">
+                        <input name="collectionDate" id="collectionDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="collectionDate_asDate" is-open="collectionDateOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openCollectionDate($event)" required/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openCollectionDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-5 control-label">Perform in TS Collection ?</label>
+                <div class="col-sm-7">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" data-ng-model="timesheetCollectionPerform"/>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-5 col-sm-7">
+                    <button type="submit" class="btn btn-default" ng-click="simpan()" ng-disabled="performanceForm.$invalid">Simpan</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

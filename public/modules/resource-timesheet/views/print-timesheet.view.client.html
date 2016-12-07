@@ -1,0 +1,28 @@
+<div class="row" cg-busy="formPromise">
+    <div class="col-md-12">
+        <div  class="page-header" style="text-align:center; font-size: 2em;">
+            <h3>Print Timesheet</h3>
+        </div>
+        <form name="printTimesheetForm" class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">Dari Tanggal</label>
+                <div class="col-sm-3" ng-class="{'has-error' : printTimesheetForm.startDate.$invalid}">
+                    <p class="input-group">
+                        <input name="startDate" id="startDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="startDate_asDate" is-open="startDateOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openStartDate($event)" required/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openStartDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+                <label class="col-sm-1 control-label">Sampai</label>
+                <div class="col-sm-3" ng-class="{'has-error' : printTimesheetForm.endDate.$invalid}">
+                    <p class="input-group">
+                        <input name="endDate" id="endDate" type="text" class="form-control" datepicker-popup="dd-MMM-yy" close-on-date-selection="true" ng-model="endDate_asDate" is-open="endDateOpened" datepicker-options="dateOptions" show-button-bar="false" ng-readonly="true" ng-click="openEndDate($event)" required/></input>
+                        <span class="input-group-btn"><button type="button" class="btn btn-default" ng-click="openEndDate($event)"><i class="glyphicon glyphicon-calendar"></i></button></span>
+                    </p>
+                </div>
+                 <div class="col-sm-3">
+                    <button type="submit" class="btn btn-default" ng-click="printTimesheet()" ng-disabled="printTimesheetForm.$invalid">Cetak</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

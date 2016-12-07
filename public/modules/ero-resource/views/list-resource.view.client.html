@@ -1,0 +1,60 @@
+<section data-ng-controller="EroResourceListController" data-ng-init="prepare()">
+    <div  class="page-header">
+        <h3>Resource</h3>
+    </div>
+	<br>
+	<div class="col-md-12" cg-busy="resourceListPromise">
+        <div data-ng-show="error" class="col-md-12 alert alert-danger alert-dismissable">
+            <span data-ng-bind="error"></span>
+        </div>
+        <div class="panel panel-default">
+        	<div class="panel-heading">
+                Resource List
+            </div>
+            <div class="panel-body" ng-show="resourceList.length === 0">
+                Tidak ada data
+            </div>
+        	<table class="table table-striped table-hover" ng-show="resourceList.length > 0"> 
+        		<tr>
+                    <th style="width:5%">No</th> 
+                    <th style="width:10%">NIP</th>
+                    <th style="width:20%">Nama Resource</th>
+                    <th style="width:10%">Join Date</th>
+                    <th style="width:20%">Status Kepegawaian</th>
+                    <th style="width:25%">Email</th>
+        			<th style="width:10%">Action</th>
+        		</tr>
+        		<tr ng-repeat="aResource in resourceList | orderBy: 'name'">
+                    <td>{{$index + 1}}</td>
+                    <td>{{aResource.nip}}</td>
+                    <td>{{aResource.name}}</td>
+                    <td>{{aResource.joinDate_asString}}</td>
+                    <td>
+                        <span ng-if="aResource.statusKepegawaian[0] === 'active'" class="text-success">Aktif</span>
+                        <span ng-if="aResource.statusKepegawaian[0] === 'resign'" class="text-danger">Resign</span>
+                    </td>
+                    <td>{{aResource.email}}</td>
+        			<td>
+                        <div class="btn-group">
+                            <button ng-click="openEditResourceDialog(aResource)" class="btn btn-info btn-xs">Edit</button>
+                            <button type="button" class="btn btn-info btn-xs dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                                <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><p class="text-center">{{aResource.name}}</p></li>
+                                <li class="divider"></li>
+                                <li><a data-ng-click="openEditResourceDialog(aResource);">Edit</a></li>
+                                <li><a data-ng-click="openChangePasswordResourceDialog(aResource);">Change Password</a></li>
+                            </ul>
+                        </div>
+
+        			</td>
+        		</tr>
+        	</table>
+        	<div class="panel-footer">
+                <a class="btn btn-primary" ng-click="openTambahResourceDialog()">Tambah Resource</a>
+        	</div>
+        </div>
+    </div>	
+</section>

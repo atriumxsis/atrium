@@ -1,0 +1,134 @@
+<div class="row" data-ng-controller="ProjectListController" data-ng-init="prepare()">
+    <div class="col-md-12">
+        <div  class="page-header" cg-busy="clientListPromise">
+            <h3>Project List</h3>
+        </div>
+        <div ng-show="error" class="text-danger text-center">
+            <strong>{{error}}</strong>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" cg-busy="resourcePromise">
+                <div class="panel-heading">
+                    Resource
+                </div>
+                <table class="table table-striped table-hover"> 
+                    <tr>
+                        <td style="width:40%"><b>NIP</b></td>
+                        <td>{{resource.nip}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Name</b></td>
+                        <td>{{resource.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Status Kepegawaian</b></td>
+                        <td>{{resource.statusKepegawaian[0]}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Email</b></td>
+                        <td>{{resource.email}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Join Date</b></td>
+                        <td>{{resource.joinDate_asString}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default" cg-busy="resourcePromise">
+                <div class="panel-heading">
+                    Last Placement
+                </div>
+                <div class="panel-body" ng-if="!resource.lastPlacement">
+                    Tidak ada data
+                </div>
+                <table class="table table-striped table-hover" ng-if="resource.lastPlacement"> 
+                    <tr>
+                        <td style="width:40%"><b>Client</b></td>
+                        <td>{{resource.lastPlacement.clientName}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>PRF Number</b></td>
+                        <td>{{resource.lastPlacement.prfNumber}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Placement Type</b></td>
+                        <td>{{resource.lastPlacement.placementType[0]}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Placement Periode</b></td>
+                        <td>{{resource.lastPlacement.fromDate_asString}} to {{resource.lastPlacement.toDate_asString}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Onboard</b></td>
+                        <td>{{resource.lastPlacement.fromDateReal_asString}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>TS Collecting Date</b></td>
+                        <td>{{resource.lastPlacement.timesheetCollectingDate}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Notes</b></td>
+                        <td>{{resource.lastPlacement.notes}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-default" cg-busy="projectListPromise">
+                <div class="panel-heading">
+                    Project List
+                </div>
+                <div class="panel-body" ng-if="projectList.length === 0">
+                    Tidak ada data
+                </div>
+                <table class="table table-striped table-hover table-bordered" ng-if="projectList.length > 0"> 
+                    <thead>
+                        <tr>
+                            <th style="width:5%; text-align: center">No</th>
+                            <th style="width:15%; text-align: center">Client</th>
+                            <th style="width:25%; text-align: center">Role / Phase</th>
+                            <th style="width:60%; text-align: center">Project Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="project in projectList | orderBy: 'created'">
+                            <td>{{$index + 1}}</td>
+                            <td>{{project.clientName}}</td>
+                            <td>
+                                <b>Role : </b>{{project.role}}
+                                <br>
+                                <b>Phase : </b>{{project.projectPhase}} 
+                            </td>
+                            <td>
+                                <b>Location: </b>{{project.location}}
+                                <br><br>
+                                <b>Department Name: </b>{{project.departmentName}}
+                                <br><br>
+                                <b>User Name :</b>{{project.userName}}
+                                <br><br>
+                                <b>Project Name :</b>{{project.projectName}}
+                                <br><br>
+                                <b>Project Duration :</b>{{project.startProject}} - {{project.endProject}}
+                                <br><br>
+                                <b>Project Description :</b><br>
+                                {{project.projectDescription}}
+                                <br><br>
+                                <b>Project Technology :</b><br>
+                                {{project.projectTechnology}}
+                                <br><br>
+                                <b>Main Task :</b><br>
+                                {{project.mainTask}}
+                                <br><br><br><br>
+                                <small><small>Created: {{project.created | date: 'yyyy-MM-dd HH:mm'}}.</small></small>
+                                <br>
+                                <small><small>Updated: {{project.updated | date: 'yyyy-MM-dd HH:mm'}}</small></small>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
