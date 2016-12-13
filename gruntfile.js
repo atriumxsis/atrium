@@ -156,7 +156,7 @@ module.exports = function(grunt) {
 
 	// Default task(s).
 	grunt.registerTask('default', ['lint', 'concurrent:default']);
-	//grunt.registerTask('default', 'exec copy-require');
+	//grunt.registerTask('default', ['exec','copy-require']);
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);

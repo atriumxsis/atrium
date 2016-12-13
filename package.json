@@ -9,7 +9,7 @@
   "scripts": {
     "start": "grunt",
     "test": "grunt test",
-	"grunt": "node_modules/.bin/grunt"
+	"grunt": "grunt"
   },
   "dependencies": {
     "express": "~4.2.0",
