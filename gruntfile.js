@@ -12,6 +12,7 @@ module.exports = function(grunt) {
 	};
 
 	// Project Configuration
+	
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
 		watch: {
@@ -155,6 +156,7 @@ module.exports = function(grunt) {
 
 	// Default task(s).
 	grunt.registerTask('default', ['lint', 'concurrent:default']);
+	//grunt.registerTask('default', 'exec copy-require');
 
 	// Debug task.
 	grunt.registerTask('debug', ['lint', 'concurrent:debug']);
