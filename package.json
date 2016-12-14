@@ -7,7 +7,7 @@
     "npm": "1.4.x"
   },
   "scripts": {
-    "start": "grunt",
+    "start": "npm run env NODE_ENV=development&node dev-server ./webpack/config",
     "test": "grunt test",
 	"grunt": "grunt"
   },
